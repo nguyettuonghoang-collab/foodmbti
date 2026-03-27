@@ -958,19 +958,23 @@
       document.getElementById('quizCounter').textContent = `${currentQuestion + 1}/${questions.length}`;
       
       const content = document.getElementById('quizContent');
+      let optionsHTML = '';
+      q.options.forEach((opt, index) => {
+        optionsHTML += `
+          <div class="option-card" onclick="selectOption('${q.dimension}', '${opt.value}')" data-value="${opt.value}">
+            <span class="option-emoji">${opt.emoji}</span>
+            <div class="option-text">
+              <div class="option-title">${opt.title}</div>
+              <div class="option-desc">${opt.desc}</div>
+            </div>
+          </div>
+        `;
+      });
       content.innerHTML = `
         <div class="question-number">Question ${currentQuestion + 1}</div>
         <h2 class="question-text">${q.question}</h2>
         <div class="options-container">
-          ${q.options.map(opt => `
-            <div class="option-card" onclick="selectOption('${q.dimension}', '${opt.value}')">
-              <span class="option-emoji">${opt.emoji}</span>
-              <div class="option-text">
-                <div class="option-title">${opt.title}</div>
-                <div class="option-desc">${opt.desc}</div>
-              </div>
-            </div>
-          `).join('')}
+          ${optionsHTML}
         </div>
       `;
       
@@ -983,6 +987,7 @@
     // 选择选项
     // =====================
     function selectOption(dimension, value) {
+      console.log('Selected:', dimension, '=', value);
       answers[dimension] = value;
       
       if (currentQuestion < questions.length - 1) {
@@ -1010,12 +1015,13 @@
     // 显示结果
     // =====================
     function showResult() {
-      let mbti = answers.EI + answers.SN + answers.TF + answers.JP;
+      let mbti = (answers.EI || '') + (answers.SN || '') + (answers.TF || '') + (answers.JP || '');
+      console.log('MBTI result:', mbti, 'Answers:', answers);
       
       // 检查URL参数
       const params = new URLSearchParams(window.location.search);
       const resultParam = params.get('r');
-      if (resultParam && results[resultParam]) {
+      if (resultParam && results[resultParam] && resultParam.length === 4) {
         mbti = resultParam;
         // 同步到answers对象
         answers.EI = mbti[0];
