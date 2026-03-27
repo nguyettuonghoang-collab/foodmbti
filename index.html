@@ -1010,7 +1010,20 @@
     // 显示结果
     // =====================
     function showResult() {
-      const mbti = answers.EI + answers.SN + answers.TF + answers.JP;
+      let mbti = answers.EI + answers.SN + answers.TF + answers.JP;
+      
+      // 检查URL参数
+      const params = new URLSearchParams(window.location.search);
+      const resultParam = params.get('r');
+      if (resultParam && results[resultParam]) {
+        mbti = resultParam;
+        // 同步到answers对象
+        answers.EI = mbti[0];
+        answers.SN = mbti[1];
+        answers.TF = mbti[2];
+        answers.JP = mbti[3];
+      }
+      
       const result = results[mbti];
       
       document.getElementById('pageQuiz').style.display = 'none';
@@ -1101,7 +1114,7 @@
     window.addEventListener('load', () => {
       const params = new URLSearchParams(window.location.search);
       const result = params.get('r');
-      if (result && results[result]) {
+      if (result && results[result] && result.length === 4) {
         // 模拟答案
         answers.EI = result[0];
         answers.SN = result[1];
