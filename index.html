@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>测测你的食物人格 | 4道题发现灵魂食物</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* =====================
+       美食设计系统
+       ===================== */
+    :root {
+      /* 主色调 - 焦糖橙 */
+      --primary: #F5A623;
+      --primary-light: #FFC947;
+      --primary-dark: #E09000;
+      
+      /* 辅助色 - 美食色系 */
+      --matcha: #8BC34A;
+      --matcha-light: #AED581;
+      --strawberry: #FF6B9D;
+      --strawberry-light: #FF9EBF;
+      --cream: #FFF8E7;
+      --chocolate: #5D4037;
+      
+      /* 中性色 - 奶油白 */
+      --bg: #FFFDF8;
+      --bg-warm: #FFF5E6;
+      --bg-card: #FFFFFF;
+      
+      /* 文字色 */
+      --text: #3D3229;
+      --text-secondary: #6B5D52;
+      --text-tertiary: #A89B8C;
+      
+      /* 阴影 */
+      --shadow-sm: 0 2px 8px rgba(61, 50, 41, 0.06);
+      --shadow-md: 0 4px 16px rgba(61, 50, 41, 0.08);
+      --shadow-lg: 0 8px 32px rgba(61, 50, 41, 0.12);
+      --shadow-glow: 0 0 40px rgba(245, 166, 35, 0.3);
+      
+      /* 圆角 */
+      --radius-sm: 12px;
+      --radius-md: 20px;
+      --radius-lg: 28px;
+      --radius-full: 999px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .app {
+      max-width: 430px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background: var(--bg);
+      position: relative;
+    }
+
+    /* =====================
+       封面页
+       ===================== */
+    .page-cover {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 32px;
+      text-align: center;
+      background: var(--bg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* 漂浮食物装饰 */
+    .page-cover::before {
+      content: '🍜🍰🧋🥐🍓🍕🍱🍪';
+      position: absolute;
+      top: 10%;
+      left: -10%;
+      font-size: 24px;
+      opacity: 0.15;
+      animation: floatFood 20s linear infinite;
+      white-space: nowrap;
+    }
+
+    .page-cover::after {
+      content: '🥗🍔🍟🍣🍩🍦🍫🍭';
+      position: absolute;
+      bottom: 15%;
+      right: -10%;
+      font-size: 20px;
+      opacity: 0.12;
+      animation: floatFood 25s linear infinite reverse;
+      white-space: nowrap;
+    }
+
+    @keyframes floatFood {
+      0% { transform: translateX(0) rotate(0deg); }
+      100% { transform: translateX(100px) rotate(10deg); }
+    }
+
+    .cover-content {
+      position: relative;
+      z-index: 1;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .cover-content.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .cover-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-card);
+      padding: 10px 20px;
+      border-radius: var(--radius-full);
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 40px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid rgba(245, 166, 35, 0.15);
+    }
+
+    .cover-badge-dot {
+      width: 8px;
+      height: 8px;
+      background: linear-gradient(135deg, var(--matcha) 0%, var(--matcha-light) 100%);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.2); opacity: 0.7; }
+    }
+
+    .cover-hero {
+      font-size: 100px;
+      margin-bottom: 24px;
+      display: block;
+      filter: drop-shadow(0 8px 24px rgba(245, 166, 35, 0.3));
+      animation: foodBounce 2s ease-in-out infinite;
+    }
+
+    @keyframes foodBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .cover-title {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+
+    .cover-title-accent {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--strawberry) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .cover-subtitle {
+      font-size: 17px;
+      color: var(--text-secondary);
+      margin-bottom: 48px;
+      line-height: 1.6;
+      max-width: 280px;
+    }
+
+    .start-btn {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      border: none;
+      padding: 18px 56px;
+      border-radius: var(--radius-full);
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(245, 166, 35, 0.35);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .start-btn::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .start-btn:hover::before {
+      left: 100%;
+    }
+
+    .start-btn:active {
+      transform: scale(0.97);
+      box-shadow: 0 4px 16px rgba(245, 166, 35, 0.3);
+    }
+
+    /* =====================
+       问卷页
+       ===================== */
+    .page-quiz {
+      display: none;
+      min-height: 100vh;
+      flex-direction: column;
+      background: var(--bg);
+    }
+
+    .quiz-header {
+      padding: 20px 20px 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .quiz-back {
+      width: 40px;
+      height: 40px;
+      background: var(--bg-card);
+      border: none;
+      border-radius: 50%;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.2s;
+    }
+
+    .quiz-back:hover {
+      transform: scale(1.05);
+      box-shadow: var(--shadow-md);
+    }
+
+    .quiz-progress {
+      flex: 1;
+      height: 6px;
+      background: rgba(245, 166, 35, 0.15);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+    }
+
+    .quiz-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+      border-radius: var(--radius-full);
+      transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .quiz-counter {
+      font-size: 14px;
+      color: var(--text-secondary);
+      font-weight: 500;
+      min-width: 50px;
+      text-align: right;
+    }
+
+    .quiz-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 40px 24px;
+    }
+
+    .question-number {
+      font-size: 14px;
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .question-text {
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 40px;
+      line-height: 1.4;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .option-card {
+      background: var(--bg-card);
+      border: 2px solid transparent;
+      border-radius: var(--radius-md);
+      padding: 24px 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .option-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--primary);
+      transform: scaleY(0);
+      transition: transform 0.3s;
+    }
+
+    .option-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: rgba(245, 166, 35, 0.3);
+    }
+
+    .option-card:active {
+      transform: scale(0.98);
+    }
+
+    .option-emoji {
+      font-size: 40px;
+      flex-shrink: 0;
+      transition: transform 0.3s;
+    }
+
+    .option-card:hover .option-emoji {
+      transform: scale(1.1);
+    }
+
+    .option-text {
+      flex: 1;
+    }
+
+    .option-title {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .option-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    /* =====================
+       结果页
+       ===================== */
+    .page-result {
+      display: none;
+      min-height: 100vh;
+      background: var(--bg);
+      padding-bottom: 40px;
+    }
+
+    .result-header {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .result-back {
+      width: 40px;
+      height: 40px;
+      background: var(--bg-card);
+      border: none;
+      border-radius: 50%;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .result-share-btn {
+      background: var(--bg-card);
+      border: none;
+      border-radius: var(--radius-full);
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .result-content {
+      padding: 0 24px;
+      text-align: center;
+    }
+
+    .result-hero {
+      font-size: 120px;
+      margin-bottom: 16px;
+      display: block;
+      filter: drop-shadow(0 12px 32px rgba(245, 166, 35, 0.25));
+      animation: foodPop 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes foodPop {
+      0% { transform: scale(0); opacity: 0; }
+      70% { transform: scale(1.1); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .result-type {
+      font-size: 14px;
+      color: var(--primary);
+      font-weight: 600;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    .result-name {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+
+    .result-tags {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .result-tag {
+      background: linear-gradient(135deg, rgba(245, 166, 35, 0.1) 0%, rgba(255, 107, 157, 0.1) 100%);
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      font-size: 13px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .result-desc {
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      text-align: left;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .result-desc-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .result-desc-text {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .result-quote {
+      background: linear-gradient(135deg, rgba(245, 166, 35, 0.08) 0%, rgba(255, 107, 157, 0.08) 100%);
+      border-radius: var(--radius-md);
+      padding: 24px 20px 20px;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .result-quote::before {
+      content: '"';
+      font-size: 48px;
+      color: var(--primary);
+      opacity: 0.3;
+      position: absolute;
+      top: 8px;
+      left: 16px;
+      line-height: 1;
+    }
+
+    .result-quote-text {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      font-style: italic;
+      padding-left: 20px;
+    }
+
+    .result-traits {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+      justify-content: center;
+    }
+
+    .result-trait {
+      background: var(--bg-card);
+      padding: 8px 14px;
+      border-radius: var(--radius-full);
+      font-size: 13px;
+      color: var(--text-secondary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .result-partner {
+      background: linear-gradient(135deg, rgba(139, 195, 74, 0.1) 0%, rgba(174, 213, 129, 0.1) 100%);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .result-partner-label {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+
+    .result-partner-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .result-partner-emoji {
+      font-size: 40px;
+    }
+
+    .result-partner-info {
+      text-align: left;
+    }
+
+    .result-partner-type {
+      font-size: 12px;
+      color: var(--matcha);
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    .result-partner-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .result-partner-desc {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-top: 12px;
+      line-height: 1.5;
+    }
+
+    .result-action {
+      display: flex;
+      gap: 12px;
+    }
+
+    .result-btn {
+      flex: 1;
+      padding: 16px;
+      border-radius: var(--radius-full);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s;
+    }
+
+    .result-btn-primary {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      box-shadow: 0 8px 24px rgba(245, 166, 35, 0.3);
+    }
+
+    .result-btn-secondary {
+      background: var(--bg-card);
+      color: var(--text);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .result-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .result-btn:active {
+      transform: scale(0.97);
+    }
+
+    /* =====================
+       响应式
+       ===================== */
+    @media (max-width: 430px) {
+      .app {
+        max-width: 100%;
+      }
+    }
+
+    /* =====================
+       动画
+       ===================== */
+    .fade-in {
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- 封面页 -->
+    <div class="page-cover" id="pageCover">
+      <div class="cover-content" id="coverContent">
+        <div class="cover-badge">
+          <span class="cover-badge-dot"></span>
+          <span>4道题 · 纯前端 · 免费测</span>
+        </div>
+        <span class="cover-hero">🍜</span>
+        <h1 class="cover-title">
+          测测你的<br><span class="cover-title-accent">食物人格</span>
+        </h1>
+        <p class="cover-subtitle">
+          4道美食选择题<br>发现你的灵魂食物
+        </p>
+        <button class="start-btn" onclick="startQuiz()">
+          开始测试 ✨
+        </button>
+      </div>
+    </div>
+
+    <!-- 问卷页 -->
+    <div class="page-quiz" id="pageQuiz">
+      <div class="quiz-header">
+        <button class="quiz-back" onclick="goBack()">←</button>
+        <div class="quiz-progress">
+          <div class="quiz-progress-bar" id="progressBar" style="width: 25%"></div>
+        </div>
+        <span class="quiz-counter" id="quizCounter">1/4</span>
+      </div>
+      <div class="quiz-content" id="quizContent">
+        <!-- 动态插入题目 -->
+      </div>
+    </div>
+
+    <!-- 结果页 -->
+    <div class="page-result" id="pageResult">
+      <div class="result-header">
+        <button class="result-back" onclick="restartQuiz()">←</button>
+        <button class="result-share-btn" onclick="shareResult()">
+          <span>📤</span> 分享
+        </button>
+      </div>
+      <div class="result-content" id="resultContent">
+        <!-- 动态插入结果 -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // =====================
+    // 题目数据
+    // =====================
+    const questions = [
+      {
+        dimension: 'EI',
+        question: '周末到了，你想怎么犒劳自己？',
+        options: [
+          {
+            value: 'E',
+            emoji: '🍲',
+            title: '热闹火锅局',
+            desc: '约上朋友，涮肉聊天，越热闹越开心'
+          },
+          {
+            value: 'I',
+            emoji: '🍜',
+            title: '一人食拉面',
+            desc: '在家煮碗热汤面，配着喜欢的剧慢慢吃'
+          }
+        ]
+      },
+      {
+        dimension: 'SN',
+        question: '发现一家没吃过的餐厅，你会？',
+        options: [
+          {
+            value: 'S',
+            emoji: '📱',
+            title: '先看评价',
+            desc: '查评分、看实拍图、研究菜单，确认靠谱再去'
+          },
+          {
+            value: 'N',
+            emoji: '🎲',
+            title: '直接冲',
+            desc: '被店名或装修吸引，想亲自探索未知的惊喜'
+          }
+        ]
+      },
+      {
+        dimension: 'TF',
+        question: '朋友问你"今晚吃什么"，你通常？',
+        options: [
+          {
+            value: 'T',
+            emoji: '📊',
+            title: '理性分析',
+            desc: '看看附近有什么、性价比如何、营养搭配怎样'
+          },
+          {
+            value: 'F',
+            emoji: '💭',
+            title: '凭感觉',
+            desc: '"突然想吃烧烤了"或"那家店氛围很好"'
+          }
+        ]
+      },
+      {
+        dimension: 'JP',
+        question: '你的饮食习惯更像？',
+        options: [
+          {
+            value: 'J',
+            emoji: '📅',
+            title: '规律三餐',
+            desc: '按时吃饭，提前想好明天吃什么，按计划执行'
+          },
+          {
+            value: 'P',
+            emoji: '🍕',
+            title: '随性而为',
+            desc: '饿了再说，看到什么吃什么，喜欢即兴点外卖'
+          }
+        ]
+      }
+    ];
+
+    // =====================
+    // 16种结果数据
+    // =====================
+    const results = {
+      'ESTJ': {
+        emoji: '🍲',
+        name: '火锅组织者',
+        tags: ['#领导力', '#高效', '#爱张罗'],
+        desc: '你是聚餐的灵魂人物，总能快速决定去哪吃、点什么，让每个人都满意。你享受统筹全局的感觉，火锅这种热闹、互动性强的食物最配你。',
+        quote: '没有什么是一顿火锅解决不了的，如果有，就两顿。',
+        traits: ['组织能力强', '决策果断', '重视效率']
+      },
+      'ESFJ': {
+        emoji: '🧁',
+        name: '派对甜点师',
+        tags: ['#温暖', '#体贴', '#爱分享'],
+        desc: '你喜欢用美食传递爱意，总是记得朋友的口味偏好。精致的甜点是你表达关心的方式，看到大家开心你就满足。',
+        quote: '甜蜜不只是味道，更是想让你开心的心意。',
+        traits: ['善解人意', '乐于分享', '注重细节']
+      },
+      'ISTJ': {
+        emoji: '🍛',
+        name: '经典家常菜',
+        tags: ['#传统', '#踏实', '#守规矩'],
+        desc: '你偏爱熟悉的味道，妈妈做的红烧肉、外婆的饺子是你的 comfort food。你重视饮食的规律性和品质感。',
+        quote: '最珍贵的味道，是记忆里家的味道。',
+        traits: ['可靠稳重', '注重品质', '怀旧念旧']
+      },
+      'ISFJ': {
+        emoji: '🍜',
+        name: '暖心汤面',
+        tags: ['#细腻', '#照顾人', '#有温度'],
+        desc: '你像一碗热腾腾的汤面，总能给人温暖和安慰。你注重细节，会记得每个人不吃什么、爱吃什么。',
+        quote: '一碗热汤面，暖的是胃，更是心。',
+        traits: ['温柔体贴', '细心周到', '默默付出']
+      },
+      'ENTJ': {
+        emoji: '🥩',
+        name: '米其林指挥官',
+        tags: ['#野心', '#效率', '#高品质'],
+        desc: '你追求最好的，愿意为高品质的美食投入时间和金钱。惠灵顿牛排这种精致、有仪式感的料理最符合你的品味。',
+        quote: '生活太短暂，要吃就吃最好的。',
+        traits: ['追求卓越', '目标导向', '品味独到']
+      },
+      'ENTP': {
+        emoji: '🌮',
+        name: '创意融合菜',
+        tags: ['#大胆', '#新奇', '#爱挑战'],
+        desc: '你讨厌无聊，总在寻找新奇的味觉体验。分子料理、 fusion 菜、异国街头小吃都能激发你的好奇心。',
+        quote: '常规太无聊，我要尝遍世界的味道。',
+        traits: ['好奇心强', '敢于尝试', '创意无限']
+      },
+      'INTJ': {
+        emoji: '🍣',
+        name: '精致日料',
+        tags: ['#策略', '#完美', '#有品位'],
+        desc: '你欣赏日料的克制与精准，每一口都经过深思熟虑。你享受独自品味美食的时光，追求极致的体验。',
+        quote: '少即是多，每一口都值得细细品味。',
+        traits: ['追求完美', '独立思考', '品味高雅'],
+        partner: 'ESFP'
+      },
+      'INTP': {
+        emoji: '🧪',
+        name: '实验料理',
+        tags: ['#好奇', '#理性', '#爱研究'],
+        desc: '你对食物的科学原理充满兴趣，喜欢研究为什么这样搭配更好吃。分子料理、发酵食品都能吸引你的注意。',
+        quote: '食物是一门科学，我想了解它的一切。',
+        traits: ['理性分析', '求知欲强', '独立思考'],
+        partner: 'ESFJ'
+      },
+      'ENFJ': {
+        emoji: '🥟',
+        name: '团圆年夜饭',
+        tags: ['#热情', '#凝聚力', '#仪式感'],
+        desc: '美食对你来说是连接人与人的纽带。你擅长营造温馨的用餐氛围，让每个人都感到被重视和欢迎。',
+        quote: '最好的味道，是和家人朋友一起吃的味道。',
+        traits: ['善于沟通', '富有感染力', '重视和谐'],
+        partner: 'ISTP'
+      },
+      'ENFP': {
+        emoji: '🍩',
+        name: '缤纷甜品台',
+        tags: ['#快乐', '#随性', '#爱尝鲜'],
+        desc: '你像甜品台一样多彩多姿，总能发现隐藏的美食宝藏。你对食物充满热情，乐于分享给身边的人。',
+        quote: '生活就像甜品台，每一款都值得尝试！',
+        traits: ['热情洋溢', '创意无限', '乐观开朗'],
+        partner: 'ISTJ'
+      },
+      'INFJ': {
+        emoji: '🧋',
+        name: '治愈系奶茶',
+        tags: ['#温柔', '#理想', '#有深度'],
+        desc: '你喜欢有故事的食物，一杯手工奶茶、一家有情怀的小店都能打动你。你追求美食背后的意义和情感。',
+        quote: '一杯奶茶的温度，刚刚好治愈疲惫的心。',
+        traits: ['富有同理心', '追求意义', '温柔细腻'],
+        partner: 'ESTP'
+      },
+      'INFP': {
+        emoji: '☕',
+        name: '文艺咖啡',
+        tags: ['#浪漫', '#敏感', '#重感受'],
+        desc: '你享受独处的时光，一杯手冲咖啡配一本好书是你的理想下午。你对氛围和体验的要求高于食物本身。',
+        quote: '咖啡和书，是我与自己对话的方式。',
+        traits: ['浪漫感性', '注重体验', '内心丰富'],
+        partner: 'ESTJ'
+      },
+      'ESTP': {
+        emoji: '🍢',
+        name: '街头烧烤',
+        tags: ['#刺激', '#活在当下', '#社交'],
+        desc: '你喜欢热闹、有烟火气的地方，烧烤摊是你的主场。你享受和朋友边撸串边聊天的快感，活在当下。',
+        quote: '人生苦短，及时行乐，今晚撸串！',
+        traits: ['行动力强', '活在当下', '社交达人'],
+        partner: 'INFJ'
+      },
+      'ESFP': {
+        emoji: '🍗',
+        name: '炸鸡啤酒',
+        tags: ['#fun-loving', '#享乐', '#朋友'],
+        desc: '你追求简单直接的快乐，炸鸡配啤酒就是人生赢家。你让每一餐都变成派对，感染身边的每个人。',
+        quote: '快乐就是这么简单，炸鸡配啤酒！',
+        traits: ['活力四射', '享受生活', '感染力强'],
+        partner: 'INTJ'
+      },
+      'ISTP': {
+        emoji: '🍱',
+        name: '便捷便当',
+        tags: ['#实用', '#灵活', '#高效'],
+        desc: '你注重效率，便当这种营养均衡、方便食用的食物最适合你。你喜欢动手制作，但不喜欢太复杂的流程。',
+        quote: '简单高效，不浪费每一分钟。',
+        traits: ['实用主义', '动手能力强', '灵活应变'],
+        partner: 'ENFJ'
+      },
+      'ISFP': {
+        emoji: '🫖',
+        name: '精致下午茶',
+        tags: ['#审美', '#享受', '#艺术感'],
+        desc: '你对美有敏锐的感知，精致的摆盘、优雅的环境和美味的食物缺一不可。你享受感官被满足的时刻。',
+        quote: '美是一种生活态度，从下午茶开始。',
+        traits: ['审美在线', '享受当下', '艺术气质'],
+        partner: 'ENTJ'
+      }
+    };
+
+    // =====================
+    // 状态管理
+    // =====================
+    let currentQuestion = 0;
+    let answers = {};
+
+    // =====================
+    // 初始化
+    // =====================
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        document.getElementById('coverContent').classList.add('show');
+      }, 100);
+    });
+
+    // =====================
+    // 开始测试
+    // =====================
+    function startQuiz() {
+      document.getElementById('pageCover').style.display = 'none';
+      document.getElementById('pageQuiz').style.display = 'flex';
+      renderQuestion();
+    }
+
+    // =====================
+    // 渲染题目
+    // =====================
+    function renderQuestion() {
+      const q = questions[currentQuestion];
+      const progress = ((currentQuestion + 1) / questions.length) * 100;
+      
+      document.getElementById('progressBar').style.width = progress + '%';
+      document.getElementById('quizCounter').textContent = `${currentQuestion + 1}/${questions.length}`;
+      
+      const content = document.getElementById('quizContent');
+      content.innerHTML = `
+        <div class="question-number">Question ${currentQuestion + 1}</div>
+        <h2 class="question-text">${q.question}</h2>
+        <div class="options-container">
+          ${q.options.map(opt => `
+            <div class="option-card" onclick="selectOption('${q.dimension}', '${opt.value}')">
+              <span class="option-emoji">${opt.emoji}</span>
+              <div class="option-text">
+                <div class="option-title">${opt.title}</div>
+                <div class="option-desc">${opt.desc}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+      
+      content.classList.remove('fade-in');
+      void content.offsetWidth;
+      content.classList.add('fade-in');
+    }
+
+    // =====================
+    // 选择选项
+    // =====================
+    function selectOption(dimension, value) {
+      answers[dimension] = value;
+      
+      if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        renderQuestion();
+      } else {
+        showResult();
+      }
+    }
+
+    // =====================
+    // 返回上一题
+    // =====================
+    function goBack() {
+      if (currentQuestion > 0) {
+        currentQuestion--;
+        renderQuestion();
+      } else {
+        document.getElementById('pageQuiz').style.display = 'none';
+        document.getElementById('pageCover').style.display = 'flex';
+      }
+    }
+
+    // =====================
+    // 显示结果
+    // =====================
+    function showResult() {
+      const mbti = answers.EI + answers.SN + answers.TF + answers.JP;
+      const result = results[mbti];
+      
+      document.getElementById('pageQuiz').style.display = 'none';
+      document.getElementById('pageResult').style.display = 'block';
+      
+      const partner = results[result.partner];
+      const content = document.getElementById('resultContent');
+      content.innerHTML = `
+        <span class="result-hero">${result.emoji}</span>
+        <div class="result-type">${mbti}</div>
+        <h2 class="result-name">${result.name}</h2>
+        <div class="result-tags">
+          ${result.tags.map(tag => `<span class="result-tag">${tag}</span>`).join('')}
+        </div>
+        <div class="result-quote">
+          <div class="result-quote-text">${result.quote}</div>
+        </div>
+        <div class="result-traits">
+          ${result.traits.map(trait => `<span class="result-trait">${trait}</span>`).join('')}
+        </div>
+        <div class="result-desc">
+          <div class="result-desc-title">
+            <span>✨</span> 人格解析
+          </div>
+          <div class="result-desc-text">${result.desc}</div>
+        </div>
+        <div class="result-partner">
+          <div class="result-partner-label">🍽️ 你的最佳拍档</div>
+          <div class="result-partner-card">
+            <span class="result-partner-emoji">${partner.emoji}</span>
+            <div class="result-partner-info">
+              <div class="result-partner-type">${result.partner}</div>
+              <div class="result-partner-name">${partner.name}</div>
+            </div>
+          </div>
+          <div class="result-partner-desc">${result.partner}是你的互补型，就像${result.name}配${partner.name}，你们在一起会有奇妙的化学反应 ✨</div>
+        </div>
+        <div class="result-action">
+          <button class="result-btn result-btn-primary" onclick="shareResult()">
+            分享结果
+          </button>
+          <button class="result-btn result-btn-secondary" onclick="restartQuiz()">
+            再测一次
+          </button>
+        </div>
+      `;
+      
+      // 保存结果到URL，方便分享
+      window.history.replaceState(null, null, `?r=${mbti}`);
+    }
+
+    // =====================
+    // 分享结果
+    // =====================
+    function shareResult() {
+      const mbti = answers.EI + answers.SN + answers.TF + answers.JP;
+      const result = results[mbti];
+      const text = `我的食物人格是：${result.emoji} ${result.name}（${mbti}）\n\n快来测测你的灵魂食物是什么！`;
+      
+      if (navigator.share) {
+        navigator.share({
+          title: '测测你的食物人格',
+          text: text,
+          url: window.location.href
+        });
+      } else {
+        // 复制到剪贴板
+        navigator.clipboard.writeText(text + '\n' + window.location.href).then(() => {
+          alert('结果已复制，快去分享给朋友吧！');
+        });
+      }
+    }
+
+    // =====================
+    // 重新开始
+    // =====================
+    function restartQuiz() {
+      currentQuestion = 0;
+      answers = {};
+      document.getElementById('pageResult').style.display = 'none';
+      document.getElementById('pageCover').style.display = 'flex';
+      window.history.replaceState(null, null, window.location.pathname);
+    }
+
+    // =====================
+    // 检查URL参数，直接显示结果
+    // =====================
+    window.addEventListener('load', () => {
+      const params = new URLSearchParams(window.location.search);
+      const result = params.get('r');
+      if (result && results[result]) {
+        // 模拟答案
+        answers.EI = result[0];
+        answers.SN = result[1];
+        answers.TF = result[2];
+        answers.JP = result[3];
+        document.getElementById('pageCover').style.display = 'none';
+        showResult();
+      }
+    });
+  </script>
+</body>
+</html>
