@@ -789,7 +789,8 @@
         tags: ['#领导力', '#高效', '#爱张罗'],
         desc: '你是聚餐的灵魂人物，总能快速决定去哪吃、点什么，让每个人都满意。你享受统筹全局的感觉，火锅这种热闹、互动性强的食物最配你。',
         quote: '没有什么是一顿火锅解决不了的，如果有，就两顿。',
-        traits: ['组织能力强', '决策果断', '重视效率']
+        traits: ['组织能力强', '决策果断', '重视效率'],
+        partner: 'INFP'
       },
       'ESFJ': {
         emoji: '🧁',
@@ -797,7 +798,8 @@
         tags: ['#温暖', '#体贴', '#爱分享'],
         desc: '你喜欢用美食传递爱意，总是记得朋友的口味偏好。精致的甜点是你表达关心的方式，看到大家开心你就满足。',
         quote: '甜蜜不只是味道，更是想让你开心的心意。',
-        traits: ['善解人意', '乐于分享', '注重细节']
+        traits: ['善解人意', '乐于分享', '注重细节'],
+        partner: 'INTP'
       },
       'ISTJ': {
         emoji: '🍛',
@@ -805,7 +807,8 @@
         tags: ['#传统', '#踏实', '#守规矩'],
         desc: '你偏爱熟悉的味道，妈妈做的红烧肉、外婆的饺子是你的 comfort food。你重视饮食的规律性和品质感。',
         quote: '最珍贵的味道，是记忆里家的味道。',
-        traits: ['可靠稳重', '注重品质', '怀旧念旧']
+        traits: ['可靠稳重', '注重品质', '怀旧念旧'],
+        partner: 'ENFP'
       },
       'ISFJ': {
         emoji: '🍜',
@@ -813,7 +816,8 @@
         tags: ['#细腻', '#照顾人', '#有温度'],
         desc: '你像一碗热腾腾的汤面，总能给人温暖和安慰。你注重细节，会记得每个人不吃什么、爱吃什么。',
         quote: '一碗热汤面，暖的是胃，更是心。',
-        traits: ['温柔体贴', '细心周到', '默默付出']
+        traits: ['温柔体贴', '细心周到', '默默付出'],
+        partner: 'ENTP'
       },
       'ENTJ': {
         emoji: '🥩',
@@ -821,7 +825,8 @@
         tags: ['#野心', '#效率', '#高品质'],
         desc: '你追求最好的，愿意为高品质的美食投入时间和金钱。惠灵顿牛排这种精致、有仪式感的料理最符合你的品味。',
         quote: '生活太短暂，要吃就吃最好的。',
-        traits: ['追求卓越', '目标导向', '品味独到']
+        traits: ['追求卓越', '目标导向', '品味独到'],
+        partner: 'ISFP'
       },
       'ENTP': {
         emoji: '🌮',
@@ -829,7 +834,8 @@
         tags: ['#大胆', '#新奇', '#爱挑战'],
         desc: '你讨厌无聊，总在寻找新奇的味觉体验。分子料理、 fusion 菜、异国街头小吃都能激发你的好奇心。',
         quote: '常规太无聊，我要尝遍世界的味道。',
-        traits: ['好奇心强', '敢于尝试', '创意无限']
+        traits: ['好奇心强', '敢于尝试', '创意无限'],
+        partner: 'ISFJ'
       },
       'INTJ': {
         emoji: '🍣',
@@ -958,25 +964,36 @@
       document.getElementById('quizCounter').textContent = `${currentQuestion + 1}/${questions.length}`;
       
       const content = document.getElementById('quizContent');
-      let optionsHTML = '';
-      q.options.forEach((opt, index) => {
-        optionsHTML += `
-          <div class="option-card" onclick="selectOption('${q.dimension}', '${opt.value}')" data-value="${opt.value}">
-            <span class="option-emoji">${opt.emoji}</span>
-            <div class="option-text">
-              <div class="option-title">${opt.title}</div>
-              <div class="option-desc">${opt.desc}</div>
-            </div>
+      content.innerHTML = '';
+      
+      const questionNum = document.createElement('div');
+      questionNum.className = 'question-number';
+      questionNum.textContent = `Question ${currentQuestion + 1}`;
+      content.appendChild(questionNum);
+      
+      const questionText = document.createElement('h2');
+      questionText.className = 'question-text';
+      questionText.textContent = q.question;
+      content.appendChild(questionText);
+      
+      const optionsContainer = document.createElement('div');
+      optionsContainer.className = 'options-container';
+      
+      q.options.forEach(opt => {
+        const card = document.createElement('div');
+        card.className = 'option-card';
+        card.innerHTML = `
+          <span class="option-emoji">${opt.emoji}</span>
+          <div class="option-text">
+            <div class="option-title">${opt.title}</div>
+            <div class="option-desc">${opt.desc}</div>
           </div>
         `;
+        card.onclick = () => selectOption(q.dimension, opt.value);
+        optionsContainer.appendChild(card);
       });
-      content.innerHTML = `
-        <div class="question-number">Question ${currentQuestion + 1}</div>
-        <h2 class="question-text">${q.question}</h2>
-        <div class="options-container">
-          ${optionsHTML}
-        </div>
-      `;
+      
+      content.appendChild(optionsContainer);
       
       content.classList.remove('fade-in');
       void content.offsetWidth;
@@ -1035,7 +1052,7 @@
       document.getElementById('pageQuiz').style.display = 'none';
       document.getElementById('pageResult').style.display = 'block';
       
-      const partner = results[result.partner];
+      const partner = result.partner ? results[result.partner] : null;
       const content = document.getElementById('resultContent');
       content.innerHTML = `
         <span class="result-hero">${result.emoji}</span>
@@ -1056,6 +1073,7 @@
           </div>
           <div class="result-desc-text">${result.desc}</div>
         </div>
+        ${partner ? `
         <div class="result-partner">
           <div class="result-partner-label">🍽️ 你的最佳拍档</div>
           <div class="result-partner-card">
@@ -1067,6 +1085,7 @@
           </div>
           <div class="result-partner-desc">${result.partner}是你的互补型，就像${result.name}配${partner.name}，你们在一起会有奇妙的化学反应 ✨</div>
         </div>
+        ` : ''}
         <div class="result-action">
           <button class="result-btn result-btn-primary" onclick="shareResult()">
             分享结果
